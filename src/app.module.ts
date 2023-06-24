@@ -27,6 +27,12 @@ import { AuthModule } from './auth/auth.module';
       entities: [UserEntity, ConcertEntity, RoomEntity, ChatEntity],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      ConcertEntity,
+      RoomEntity,
+      ChatEntity,
+    ]),
     UsersModule,
     AuthModule,
   ],

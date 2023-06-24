@@ -11,4 +11,14 @@ export class ConcertEntity extends EntityContent {
 
   @Column({ type: 'date', nullable: false })
   startDate: Date;
+
+  //*내용 / 장소 / 장소 gps / lat,lng
+  @Column({ type: 'text', nullable: true })
+  content?: string;
+  @Column({ type: 'varchar', length: 32, nullable: false })
+  location: string;
+  @Column({ type: 'varchar', length: 24, nullable: false })
+  gpsLat: string;
+  @Column({ type: 'varchar', length: 24, nullable: false })
+  gpsLng: string;
 }
