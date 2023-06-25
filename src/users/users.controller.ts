@@ -60,18 +60,24 @@ export class UsersController {
       jwt,
     });
   }
-  @Get('myprofile')
+  @Get('my_profile')
   @UseGuards(AuthGuard)
   isMyProfile(@CurrentUser() user: UserEntity): Promise<UserEntity> {
     return this.usersService.isMtProfile(user);
   }
 
-  @Put('myprofile/nickname')
+  @Put('my_profile/nickname')
   @UseGuards(AuthGuard)
   updateUserNickname(
     @CurrentUser() user: UserEntity,
     @Body('nickname') nickname: string,
   ): Promise<UserEntity> {
     return this.usersService.updateUserNickname(user, nickname);
+  }
+
+  @Put('test_user')
+  @UseGuards(AuthGuard)
+  async admin(@CurrentUser() user: UserEntity) {
+    return this.usersService.admin(user);
   }
 }

@@ -1,3 +1,4 @@
+import { ManageEnum } from './../common/enum/manage.enum';
 import { UpdateConcertDto } from './../common/dtos/update-concert.dto';
 import { UsersService } from './../users/users.service';
 import { CreateConcertDto } from './../common/dtos/create-concert.dto';
@@ -50,12 +51,17 @@ export class ConcertService {
   async updateConcert(
     user: UserEntity,
     dto: UpdateConcertDto,
+    id: number,
   ): Promise<ConcertEntity> {
+    const admin = await this.usersService.getUser(user.id);
+    if (admin.manage !== ManageEnum.ADMIN) {
+      throw new HttpException('권한 없음', 400);
+    }
     const queryRunner = await this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const concert = await this.getConcert(dto.id);
+      const concert = await this.getConcert(id);
       concert.title = dto.title;
       concert.location = dto.location;
       concert.content = dto.content;
@@ -69,6 +75,6 @@ export class ConcertService {
     } finally {
       await queryRunner.release();
     }
-    return this.getConcert(dto.id);
+    return this.getConcert(id);
   }
 }

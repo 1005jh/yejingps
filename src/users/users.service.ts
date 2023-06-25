@@ -51,14 +51,14 @@ export class UsersService {
     return await this.userRepository
       .createQueryBuilder('user')
       .where({ id: userId })
-      .select(['user.username', 'user.nickname', 'user.id'])
+      .select(['user.username', 'user.nickname', 'user.id', 'user.manage'])
       .getOne();
   }
   async nicknameCheck(nickname: string): Promise<UserEntity> {
     return await this.userRepository
       .createQueryBuilder('user')
       .where({ nickname: nickname })
-      .select(['user.id', 'user.username', 'user.nickname'])
+      .select(['user.id', 'user.username', 'user.nickname', 'user.manage'])
       .getOne();
   }
 
@@ -87,6 +87,19 @@ export class UsersService {
       existUser.nickname = nickname;
       await this.userRepository.save(existUser);
       return await this.getUser(existUser.id);
+    } catch (e) {
+      console.log(e);
+      throw new HttpException(e, 400);
+    }
+  }
+
+  async admin(user: UserEntity) {
+    try {
+      const existUser = await this.getUser(user.id);
+      existUser.manage = ManageEnum.ADMIN;
+      await this.userRepository.save(existUser);
+
+      return existUser;
     } catch (e) {
       console.log(e);
       throw new HttpException(e, 400);

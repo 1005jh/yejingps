@@ -10,6 +10,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConcertModule } from './concert/concert.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ConcertModule } from './concert/concert.module';
     UsersModule,
     AuthModule,
     ConcertModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
