@@ -30,11 +30,9 @@ export class ConcertController {
   }
 
   @Get()
-  @UseGuards(AuthGuard, AdminGuard)
-  async getConcert(
-    @Body('concertId') concertId: number,
-  ): Promise<ConcertEntity> {
-    return this.concertService.getConcert(concertId);
+  @UseGuards()
+  async getConcert(): Promise<ConcertEntity> {
+    return this.concertService.getAllConcert();
   }
 
   @Put(':id')
