@@ -53,7 +53,7 @@ export class AuthService {
     const result = await this.userRepository
       .createQueryBuilder('user')
       .where({ id: payload.id })
-      .select(['user.username', 'user.nickname', 'user.id'])
+      .select(['user.username', 'user.nickname', 'user.id', 'user.manage'])
       .getMany();
     console.log('123123', result);
     return result;

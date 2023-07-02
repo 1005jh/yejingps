@@ -48,8 +48,8 @@ export class ConcertService {
       .getOne();
   }
 
-  async getAllConcert(): Promise<ConcertEntity> {
-    return await this.concertRepository.createQueryBuilder('concert').getOne();
+  async getAllConcert(): Promise<ConcertEntity[]> {
+    return await this.concertRepository.createQueryBuilder('concert').getMany();
   }
 
   async updateConcert(

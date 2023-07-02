@@ -16,7 +16,14 @@ async function bootstrap() {
   }
   const app = await NestFactory.create(AppModule, options);
   app.enableCors({
-    origin: ['https://local.chatgps.com:4000', 'http://local.chatgps.com:4000'],
+    origin: [
+      'https://local.chatgps.com:4000',
+      'http://local.chatgps.com:4000',
+      'http://localhost:3000',
+      'http://localhost:4000',
+      'https://local.chatgps.com:3000',
+      'http://local.chatgps.com:3000',
+    ],
     allowedHeaders: ['Content-Type', 'Authorization', 'cookies'],
     credentials: true,
   });

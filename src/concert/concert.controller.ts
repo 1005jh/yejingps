@@ -30,8 +30,7 @@ export class ConcertController {
   }
 
   @Get()
-  @UseGuards()
-  async getConcert(): Promise<ConcertEntity> {
+  async getConcert(): Promise<ConcertEntity[]> {
     return this.concertService.getAllConcert();
   }
 
