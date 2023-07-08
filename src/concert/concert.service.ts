@@ -44,6 +44,7 @@ export class ConcertService {
       const room = this.roomRepository.create();
       room.name = dto.title;
       room.roomId = roomId;
+      room.concertId = concert.id;
       await this.roomRepository.save(room);
       return await this.getConcert(concert.id);
     } catch (e) {
@@ -59,14 +60,16 @@ export class ConcertService {
       .getOne();
   }
 
-  async getAllConcert(): Promise<ConcertEntity[]> {
-    return await this.concertRepository
-      .createQueryBuilder()
-      .select(['ce.*', 're.*'])
-      .from(ConcertEntity, 'ce')
-      .leftJoin(RoomEntity, 're', 'ce.concert.id = re.concertId')
+  async getAllConcert() {
+    const a = await this.concertRepository
+      .createQueryBuilder('ce')
+      .select('ce')
+      .addSelect('re')
+      .leftJoin('ce.rooms', 're')
       .orderBy('ce.startDate', 'DESC')
       .getMany();
+    console.log(a);
+    return a;
   }
 
   async updateConcert(

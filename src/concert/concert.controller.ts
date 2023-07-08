@@ -37,7 +37,7 @@ export class ConcertController {
   }
 
   @Get()
-  async getConcert(): Promise<ConcertEntity[]> {
+  async getConcert() {
     return this.concertService.getAllConcert();
   }
 

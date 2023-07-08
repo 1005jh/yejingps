@@ -44,12 +44,11 @@ export class RoomService {
       .getOne();
   }
 
-  async getAllRoom(): Promise<RoomEntity[]> {
+  async getAllRoom() {
     return await this.roomRepository
-      .createQueryBuilder()
-      .select(['re.*', 'ce.*'])
-      .from(RoomEntity, 'ce')
-      .leftJoin(ConcertEntity, 're', 'ce.concert.id = re.concertId')
+      .createQueryBuilder('re')
+      .select(['re', 'ce'])
+      .leftJoin('re.concert', 'ce', 'ce.id = re.concertId')
       .orderBy('ce.startDate', 'DESC')
       .getMany();
   }

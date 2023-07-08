@@ -31,7 +31,7 @@ export class RoomController {
   }
 
   @Get()
-  async getAllRoom(): Promise<RoomEntity[]> {
+  async getAllRoom() {
     return this.roomService.getAllRoom();
   }
 
