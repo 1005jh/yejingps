@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ManageEnum } from 'src/common/enum/manage.enum';
 import { customAlphabet } from 'nanoid';
+import { ConcertEntity } from 'src/entity/concert.entity';
 
 @Injectable()
 export class RoomService {
@@ -44,7 +45,13 @@ export class RoomService {
   }
 
   async getAllRoom(): Promise<RoomEntity[]> {
-    return await this.roomRepository.createQueryBuilder('room').getMany();
+    return await this.roomRepository
+      .createQueryBuilder()
+      .select(['re.*', 'ce.*'])
+      .from(RoomEntity, 'ce')
+      .leftJoin(ConcertEntity, 're', 'ce.concert.id = re.concertId')
+      .orderBy('ce.startDate', 'DESC')
+      .getMany();
   }
 
   async updateRoomData(

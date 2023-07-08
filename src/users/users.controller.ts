@@ -52,6 +52,18 @@ export class UsersController {
     return res.send('성공');
   }
 
+  @Post('/logout')
+  logout(@Req() req: Request, @Res() res: Response): any {
+    res.cookie('jwt', '', {
+      domain: '.quizrix.com',
+      maxAge: 0,
+    });
+    res.clearCookie('jwt');
+    return res.send({
+      message: 'success',
+    });
+  }
+
   @Get('token')
   @UseGuards(AuthGuard)
   isAuthenticated(@Req() req: Request, @Res() res: Response): any {

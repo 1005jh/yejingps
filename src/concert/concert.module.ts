@@ -1,3 +1,4 @@
+import { RoomEntity } from './../entity/room.entity';
 import { UserEntity } from 'src/entity/user.entity';
 import { UsersModule } from 'src/users/users.module';
 import { UsersService } from './../users/users.service';
@@ -10,7 +11,7 @@ import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ConcertEntity, UserEntity]),
+    TypeOrmModule.forFeature([ConcertEntity, UserEntity, RoomEntity]),
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
   ],
   providers: [ConcertService, UsersService],

@@ -1,3 +1,4 @@
+import { RoomEntity } from './../entity/room.entity';
 import { ManageEnum } from './../common/enum/manage.enum';
 import { UpdateConcertDto } from './../common/dtos/update-concert.dto';
 import { UsersService } from './../users/users.service';
@@ -7,6 +8,7 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Connection, getConnection } from 'typeorm';
 import { UserEntity } from 'src/entity/user.entity';
+import { customAlphabet } from 'nanoid';
 
 @Injectable()
 export class ConcertService {
@@ -14,13 +16,18 @@ export class ConcertService {
     @InjectRepository(ConcertEntity)
     private readonly concertRepository: Repository<ConcertEntity>,
     private readonly usersService: UsersService,
+    @InjectRepository(RoomEntity)
+    private readonly roomRepository: Repository<RoomEntity>,
     private readonly connection: Connection,
   ) {}
 
   async createConcert(
     user: UserEntity,
     dto: CreateConcertDto,
+    file: Express.Multer.File,
   ): Promise<ConcertEntity> {
+    const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ23456789', 12);
+    const roomId = nanoid();
     try {
       const existUser = this.usersService.getUser(user.id);
       if (!existUser) {
@@ -34,6 +41,10 @@ export class ConcertService {
       concert.gpsLng = dto.gpsLng;
       concert.startDate = dto.startDate;
       await this.concertRepository.save(concert);
+      const room = this.roomRepository.create();
+      room.name = dto.title;
+      room.roomId = roomId;
+      await this.roomRepository.save(room);
       return await this.getConcert(concert.id);
     } catch (e) {
       console.log(e);
@@ -49,7 +60,13 @@ export class ConcertService {
   }
 
   async getAllConcert(): Promise<ConcertEntity[]> {
-    return await this.concertRepository.createQueryBuilder('concert').getMany();
+    return await this.concertRepository
+      .createQueryBuilder()
+      .select(['ce.*', 're.*'])
+      .from(ConcertEntity, 'ce')
+      .leftJoin(RoomEntity, 're', 'ce.concert.id = re.concertId')
+      .orderBy('ce.startDate', 'DESC')
+      .getMany();
   }
 
   async updateConcert(
