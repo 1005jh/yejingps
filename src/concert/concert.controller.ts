@@ -6,6 +6,7 @@ import { ConcertService } from './concert.service';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -49,5 +50,11 @@ export class ConcertController {
     @Param('id') id: number,
   ): Promise<ConcertEntity> {
     return this.concertService.updateConcert(user, dto, id);
+  }
+
+  @Delete(':id')
+  @UseGuards(AuthGuard, AdminGuard)
+  async remove(@Param('id') id: number) {
+    return this.concertService.remove(id);
   }
 }

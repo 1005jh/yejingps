@@ -21,7 +21,4 @@ export class RoomEntity extends EntityContent {
 
   @Column({ type: 'int', nullable: false })
   concertId: number;
-
-  @ManyToOne(() => ConcertEntity, (concert) => concert.rooms)
-  concert: ConcertEntity;
 }

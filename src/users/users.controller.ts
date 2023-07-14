@@ -49,18 +49,17 @@ export class UsersController {
     });
     console.log(req.headers);
     console.log(req.cookies);
-    return res.send('성공');
+    return res.send({ success: true });
   }
 
   @Post('/logout')
   logout(@Req() req: Request, @Res() res: Response): any {
     res.cookie('jwt', '', {
-      domain: '.quizrix.com',
       maxAge: 0,
     });
     res.clearCookie('jwt');
     return res.send({
-      message: 'success',
+      success: true,
     });
   }
 

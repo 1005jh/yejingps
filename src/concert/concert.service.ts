@@ -101,4 +101,12 @@ export class ConcertService {
     }
     return this.getConcert(id);
   }
+
+  async remove(id: number) {
+    return await this.concertRepository
+      .createQueryBuilder('concert')
+      .delete()
+      .where({ id: id })
+      .execute();
+  }
 }
