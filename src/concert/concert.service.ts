@@ -63,11 +63,20 @@ export class ConcertService {
   async getAllConcert() {
     const a = await this.concertRepository
       .createQueryBuilder('ce')
-      .select('ce')
-      .addSelect('re')
-      .leftJoin(RoomEntity, 're')
+      .select([
+        'ce.id AS id',
+        'ce.title AS title',
+        'ce.startDate AS startDate',
+        'ce.content AS content',
+        'ce.location AS location',
+        'ce.gpsLat AS gpsLat',
+        'ce.gpsLng AS gpsLng',
+        're.roomId AS roomId',
+        're.name AS roomName',
+      ])
+      .leftJoin(RoomEntity, 're', 'ce.id = re.concertId')
       .orderBy('ce.startDate', 'DESC')
-      .getMany();
+      .getRawMany();
     console.log(a);
     return a;
   }
