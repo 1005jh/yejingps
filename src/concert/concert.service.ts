@@ -65,7 +65,7 @@ export class ConcertService {
       .createQueryBuilder('ce')
       .select('ce')
       .addSelect('re')
-      .leftJoin('ce.rooms', 're')
+      .leftJoin(RoomEntity, 're')
       .orderBy('ce.startDate', 'DESC')
       .getMany();
     console.log(a);
