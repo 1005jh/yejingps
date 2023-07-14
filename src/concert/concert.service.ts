@@ -106,7 +106,7 @@ export class ConcertService {
     return await this.concertRepository
       .createQueryBuilder('concert')
       .delete()
-      .where({ id: id })
+      .where(`id =:id`, { id: id })
       .execute();
   }
 }

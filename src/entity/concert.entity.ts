@@ -22,4 +22,7 @@ export class ConcertEntity extends EntityContent {
   gpsLat: string;
   @Column({ type: 'varchar', length: 24, nullable: false })
   gpsLng: string;
+
+  @OneToMany(() => RoomEntity, (room) => room.concert)
+  rooms: Promise<RoomEntity[]>;
 }
