@@ -9,9 +9,8 @@ export class CreateConcertDto {
   @IsString()
   content?: string;
   @IsNotEmpty()
-  @Type(() => Date)
-  @IsDate()
-  startDate: Date;
+  @IsString()
+  startDate: string;
   @IsNotEmpty()
   @IsString()
   location: string;

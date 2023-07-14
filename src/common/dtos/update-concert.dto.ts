@@ -6,9 +6,9 @@ export class UpdateConcertDto {
   title?: string;
   @IsString()
   content?: string;
-  @Type(() => Date)
-  @IsDate()
-  startDate?: Date;
+
+  @IsString()
+  startDate?: string;
   @IsString()
   location?: string;
   @IsString()

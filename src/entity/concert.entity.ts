@@ -10,8 +10,8 @@ export class ConcertEntity extends EntityContent {
   @Column({ type: 'varchar', length: 64, nullable: false })
   title: string;
 
-  @Column({ type: 'date', nullable: false })
-  startDate: Date;
+  @Column({ type: 'varchar', nullable: false })
+  startDate: string;
 
   //*내용 / 장소 / 장소 gps / lat,lng
   @Column({ type: 'text', nullable: true })
