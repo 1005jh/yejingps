@@ -1,3 +1,4 @@
+import { JoinEntity } from './entity/join.entity';
 import { ChatEntity } from './entity/chat.entity';
 import { RoomEntity } from './entity/room.entity';
 import { ConcertEntity } from './entity/concert.entity';
@@ -11,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConcertModule } from './concert/concert.module';
 import { RoomModule } from './room/room.module';
+import { ChatsModule } from './chats/chats.module';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { RoomModule } from './room/room.module';
       password: process.env.DB_PASSWORD,
       timezone: 'local',
       database: process.env.DB_DATABASE,
-      entities: [UserEntity, ConcertEntity, RoomEntity, ChatEntity],
+      entities: [UserEntity, ConcertEntity, RoomEntity, ChatEntity, JoinEntity],
       synchronize: true,
     }),
     TypeOrmModule.forFeature([
@@ -35,11 +37,13 @@ import { RoomModule } from './room/room.module';
       ConcertEntity,
       RoomEntity,
       ChatEntity,
+      JoinEntity,
     ]),
     UsersModule,
     AuthModule,
     ConcertModule,
     RoomModule,
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,6 +2,7 @@ import { ChatEntity } from './chat.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EntityContent } from './content';
 import { ManageEnum } from 'src/common/enum/manage.enum';
+import { JoinEntity } from './join.entity';
 
 @Entity({ name: 'USER' })
 export class UserEntity extends EntityContent {
@@ -10,9 +11,6 @@ export class UserEntity extends EntityContent {
 
   @Column({ type: 'varchar', length: 32, unique: true, nullable: false })
   username: string;
-
-  @Column({ type: 'varchar', length: 32, unique: true, nullable: false })
-  nickname: string;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   password: string;
@@ -23,4 +21,7 @@ export class UserEntity extends EntityContent {
 
   @OneToMany(() => ChatEntity, (chat) => chat.user)
   chats: Promise<ChatEntity[]>;
+
+  @OneToMany(() => JoinEntity, (join) => join.user)
+  joins: Promise<JoinEntity[]>;
 }

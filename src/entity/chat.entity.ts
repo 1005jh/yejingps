@@ -9,6 +9,9 @@ export class ChatEntity extends EntityContent {
   @Column({ type: 'text', nullable: false })
   chat: string;
 
+  @Column({ type: 'varchar', length: 12, nullable: false })
+  roomId: string;
+
   @Column({ type: 'int', nullable: false })
   userId: number;
 

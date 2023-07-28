@@ -78,14 +78,14 @@ export class UsersController {
     return this.usersService.isMtProfile(user);
   }
 
-  @Put('my_profile/nickname')
-  @UseGuards(AuthGuard)
-  updateUserNickname(
-    @CurrentUser() user: UserEntity,
-    @Body('nickname') nickname: string,
-  ): Promise<UserEntity> {
-    return this.usersService.updateUserNickname(user, nickname);
-  }
+  // @Put('my_profile/nickname')
+  // @UseGuards(AuthGuard)
+  // updateUserNickname(
+  //   @CurrentUser() user: UserEntity,
+  //   @Body('nickname') nickname: string,
+  // ): Promise<UserEntity> {
+  //   return this.usersService.updateUserNickname(user, nickname);
+  // }
 
   @Put('test_user')
   @UseGuards(AuthGuard)

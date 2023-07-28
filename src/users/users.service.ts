@@ -18,17 +18,12 @@ export class UsersService {
     if (existUser) {
       throw new HttpException('존재하는 ID', 400);
     }
-    const existNickname = await this.nicknameCheck(dto.nickname);
-    if (existNickname) {
-      throw new HttpException('존재하는 Nickname', 400);
-    }
     const saltOrRounds = 10;
     const password = dto.password;
     const hash = await bcrypt.hash(password, saltOrRounds);
     try {
       const newUser = this.userRepository.create();
       newUser.username = dto.username;
-      newUser.nickname = dto.nickname;
       newUser.password = hash;
       newUser.manage = ManageEnum.MEMBER;
       await this.userRepository.save(newUser);
@@ -51,14 +46,7 @@ export class UsersService {
     return await this.userRepository
       .createQueryBuilder('user')
       .where({ id: userId })
-      .select(['user.username', 'user.nickname', 'user.id', 'user.manage'])
-      .getOne();
-  }
-  async nicknameCheck(nickname: string): Promise<UserEntity> {
-    return await this.userRepository
-      .createQueryBuilder('user')
-      .where({ nickname: nickname })
-      .select(['user.id', 'user.username', 'user.nickname', 'user.manage'])
+      .select(['user.username', 'user.id', 'user.manage'])
       .getOne();
   }
 
@@ -69,24 +57,6 @@ export class UsersService {
         throw new HttpException('잘못된 요청', 400);
       }
       return existUser;
-    } catch (e) {
-      console.log(e);
-      throw new HttpException(e, 400);
-    }
-  }
-
-  async updateUserNickname(
-    user: UserEntity,
-    nickname: string,
-  ): Promise<UserEntity> {
-    try {
-      const existUser = await this.getUser(user.id);
-      if (!existUser) {
-        throw new HttpException('잘못된 요청', 400);
-      }
-      existUser.nickname = nickname;
-      await this.userRepository.save(existUser);
-      return await this.getUser(existUser.id);
     } catch (e) {
       console.log(e);
       throw new HttpException(e, 400);

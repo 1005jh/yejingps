@@ -9,7 +9,6 @@ import * as bcrypt from 'bcrypt';
 
 interface Payload {
   username?: string;
-  nickname?: string;
   id: number;
 }
 
@@ -38,7 +37,6 @@ export class AuthService {
 
       const payload: Payload = {
         username: existUser.username,
-        nickname: existUser.nickname,
         id: existUser.id,
       };
       const token = this.jwtService.sign(payload);
@@ -53,7 +51,7 @@ export class AuthService {
     const result = await this.userRepository
       .createQueryBuilder('user')
       .where({ id: payload.id })
-      .select(['user.username', 'user.nickname', 'user.id', 'user.manage'])
+      .select(['user.username', 'user.id', 'user.manage'])
       .getMany();
     console.log('123123', result);
     return result;
