@@ -32,9 +32,9 @@ export class ConcertController {
   async createConcert(
     @CurrentUser() user: UserEntity,
     @Body() dto: CreateConcertDto,
-    @UploadedFile() file: Express.Multer.File,
+    // @UploadedFile() file: Express.Multer.File,
   ): Promise<ConcertEntity> {
-    return this.concertService.createConcert(user, dto, file);
+    return this.concertService.createConcert(user, dto);
   }
 
   @Get()
