@@ -54,6 +54,7 @@ export class ChatsGateway
     socket.join(roomId);
     await this.chatsService.joinUesr(user, roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
+    socket.to(roomId).emit('updateUserList', joinUserList);
     this.logger.log(`User ${user.id} joined room ${roomId}`);
     return joinUserList;
   }
@@ -68,6 +69,7 @@ export class ChatsGateway
     socket.leave(roomId);
     await this.chatsService.leaveUser(user, roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
+    socket.to(roomId).emit('updateUserList', joinUserList);
     this.logger.log(`User ${user.id} leaved room ${roomId}`);
     return joinUserList;
   }
@@ -92,6 +94,7 @@ export class ChatsGateway
   ) {
     socket.join(roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
+    socket.to(roomId).emit('updateUserList', joinUserList);
     this.logger.log(`User joined room ${roomId}`);
     return joinUserList;
   }
@@ -103,6 +106,7 @@ export class ChatsGateway
   ) {
     socket.leave(roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
+    socket.to(roomId).emit('updateUserList', joinUserList);
     this.logger.log(`User leaved room ${roomId}`);
     return joinUserList;
   }
