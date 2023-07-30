@@ -23,5 +23,6 @@ import { RoomEntity } from 'src/entity/room.entity';
     UsersModule,
   ],
   providers: [ChatsService, ChatsGateway],
+  exports: [ChatsGateway],
 })
 export class ChatsModule {}

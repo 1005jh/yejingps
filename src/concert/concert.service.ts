@@ -10,7 +10,7 @@ import { Repository, Connection, getConnection } from 'typeorm';
 import { UserEntity } from 'src/entity/user.entity';
 import { customAlphabet } from 'nanoid';
 import { ConfigService } from '@nestjs/config';
-import * as AWS from 'aws-sdk';
+// import * as AWS from 'aws-sdk';
 
 @Injectable()
 export class ConcertService {
@@ -26,43 +26,43 @@ export class ConcertService {
     private readonly connection: Connection,
     private readonly configService: ConfigService,
   ) {
-    AWS.config.update({
-      region: this.configService.get('S3_REGION'),
-      credentials: {
-        accessKeyId: this.configService.get('S3_ACCESS_KEY'),
-        secretAccessKey: this.configService.get('S3_SECRET_KEY'),
-      },
-    });
-    this.s3 = new AWS.S3();
-    this.S3_BUCKET_NAME = this.configService.get('S3_BUCKET_NAME');
-    this.S3_REGION = this.configService.get('S3_REGION');
+    // AWS.config.update({
+    //   region: this.configService.get('S3_REGION'),
+    //   credentials: {
+    //     accessKeyId: this.configService.get('S3_ACCESS_KEY'),
+    //     secretAccessKey: this.configService.get('S3_SECRET_KEY'),
+    //   },
+    // });
+    // this.s3 = new AWS.S3();
+    // this.S3_BUCKET_NAME = this.configService.get('S3_BUCKET_NAME');
+    // this.S3_REGION = this.configService.get('S3_REGION');
   }
 
   async createConcert(
     user: UserEntity,
     dto: CreateConcertDto,
-    file: Express.Multer.File,
+    // file: Express.Multer.File,
   ) {
     const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ23456789', 12);
     const roomId = nanoid();
     try {
-      const ext = file.originalname.split('.').pop();
-      const key = `original/${
-        Math.floor(Math.random() * 10000).toString() + Date.now()
-      }.${ext}`;
-      const params = {
-        Bucket: process.env.S3_BUCKET_NAME,
-        ACL: 'public-read',
-        Key: key,
-        Body: file.buffer,
-      };
-      const concertImg = `https://${this.S3_BUCKET_NAME}.s3.${this.S3_REGION}.amazonaws.com/${key}`;
-      new Promise((resolve, reject) => {
-        this.s3.putObject(params, (err, data) => {
-          if (err) reject(err);
-          resolve(concertImg);
-        });
-      });
+      // const ext = file.originalname.split('.').pop();
+      // const key = `original/${
+      //   Math.floor(Math.random() * 10000).toString() + Date.now()
+      // }.${ext}`;
+      // const params = {
+      //   Bucket: process.env.S3_BUCKET_NAME,
+      //   ACL: 'public-read',
+      //   Key: key,
+      //   Body: file.buffer,
+      // };
+      // const concertImg = `https://${this.S3_BUCKET_NAME}.s3.${this.S3_REGION}.amazonaws.com/${key}`;
+      // new Promise((resolve, reject) => {
+      //   this.s3.putObject(params, (err, data) => {
+      //     if (err) reject(err);
+      //     resolve(concertImg);
+      //   });
+      // });
       const existUser = this.usersService.getUser(user.id);
       if (!existUser) {
         throw new HttpException('잘못된 요청', 400);
@@ -74,7 +74,7 @@ export class ConcertService {
       concert.gpsLat = dto.gpsLat;
       concert.gpsLng = dto.gpsLng;
       concert.startDate = dto.startDate;
-      concert.concertImg = concertImg;
+      // concert.concertImg = concertImg;
       await this.concertRepository.save(concert);
       const room = this.roomRepository.create();
       room.name = dto.title;
