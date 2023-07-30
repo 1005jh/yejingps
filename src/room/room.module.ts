@@ -1,3 +1,4 @@
+import { ChatEntity } from './../entity/chat.entity';
 import { UsersModule } from 'src/users/users.module';
 import { RoomEntity } from './../entity/room.entity';
 import { Module } from '@nestjs/common';
@@ -10,7 +11,12 @@ import { RoomService } from './room.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ConcertEntity, UserEntity, RoomEntity]),
+    TypeOrmModule.forFeature([
+      ConcertEntity,
+      UserEntity,
+      RoomEntity,
+      ChatEntity,
+    ]),
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     UsersModule,
   ],

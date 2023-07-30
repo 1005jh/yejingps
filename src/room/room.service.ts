@@ -1,3 +1,4 @@
+import { ChatEntity } from './../entity/chat.entity';
 import { UpdateRoomDto } from './../common/dtos/update-room.dto';
 import { UsersService } from './../users/users.service';
 import { CreateRoomDto } from './../common/dtos/create-room.dto';
@@ -16,6 +17,8 @@ export class RoomService {
     @InjectRepository(RoomEntity)
     private readonly roomRepository: Repository<RoomEntity>,
     private readonly usersService: UsersService,
+    @InjectRepository(ChatEntity)
+    private readonly chatRepository: Repository<ChatEntity>,
   ) {}
 
   async createRoom(user: UserEntity, dto: CreateRoomDto): Promise<RoomEntity> {
@@ -94,7 +97,7 @@ export class RoomService {
     const take = 20; // 한 번에 가져올 채팅의 개수
 
     try {
-      const query = this.roomRepository
+      const query = this.chatRepository
         .createQueryBuilder('chat')
         .where('chat.roomId = :roomId', { roomId })
         .orderBy('chat.createdAt', 'DESC')
