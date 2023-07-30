@@ -12,6 +12,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from 'src/common/decorator/user.decorator';
@@ -49,5 +50,13 @@ export class RoomController {
   @UseGuards(AuthGuard, AdminGuard)
   async deletRoom(@CurrentUser() user: UserEntity, @Param('id') id: number) {
     return this.roomService.deletRoom(user, id);
+  }
+
+  @Get('/:id/chat')
+  async getChatList(
+    @Param('id') roomId: string,
+    @Query() lastChatTime: string,
+  ) {
+    return this.roomService.getChatList(roomId, lastChatTime);
   }
 }

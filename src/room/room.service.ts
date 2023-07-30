@@ -89,4 +89,26 @@ export class RoomService {
       throw new HttpException(e, 400);
     }
   }
+
+  async getChatList(roomId: string, lastChatTime?: string) {
+    const take = 20; // 한 번에 가져올 채팅의 개수
+
+    try {
+      const query = this.roomRepository
+        .createQueryBuilder('chat')
+        .where('chat.roomId = :roomId', { roomId })
+        .orderBy('chat.createdAt', 'DESC')
+        .take(take);
+
+      if (lastChatTime) {
+        query.andWhere('chat.createdAt > :lastChatTime', { lastChatTime });
+      }
+
+      const chatList = await query.getMany();
+      return chatList;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error, 400);
+    }
+  }
 }

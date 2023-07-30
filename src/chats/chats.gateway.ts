@@ -84,4 +84,26 @@ export class ChatsGateway
     socket.broadcast.to(roomId).emit('message', chat);
     return chat;
   }
+
+  @SubscribeMessage('join')
+  async handleJoin(
+    @MessageBody() roomId: string,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    socket.join(roomId);
+    const joinUserList = await this.chatsService.joinUserList(roomId);
+    this.logger.log(`User joined room ${roomId}`);
+    return joinUserList;
+  }
+
+  @SubscribeMessage('leave')
+  async handleLeave(
+    @MessageBody() roomId: string,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    socket.leave(roomId);
+    const joinUserList = await this.chatsService.joinUserList(roomId);
+    this.logger.log(`User leaved room ${roomId}`);
+    return joinUserList;
+  }
 }
