@@ -99,18 +99,18 @@ export class RoomService {
     try {
       let chatWhere;
       if (lastChatTime) {
-        chatWhere = ` AND chat.createdAt > :lastChatTime', ${lastChatTime}`;
+        chatWhere = ` AND createdAt < ${lastChatTime}`;
       }
 
       const query = this.chatRepository
         .createQueryBuilder('chat')
         .where(
           `
-          chat.roomId = :roomId', ${roomId}
+          roomId = ${roomId}
           ${chatWhere}
           `,
         )
-        .orderBy('chat.createdAt', 'DESC')
+        .orderBy('createdAt', 'DESC')
         .take(take);
 
       const chatList = await query.getMany();
