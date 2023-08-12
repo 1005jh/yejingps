@@ -97,7 +97,7 @@ export class RoomService {
     const take = 20; // 한 번에 가져올 채팅의 개수
 
     try {
-      let chatWhere;
+      let chatWhere = '';
       if (lastChatTime) {
         chatWhere = ` AND createdAt < ${lastChatTime}`;
       }
@@ -106,6 +106,7 @@ export class RoomService {
         .createQueryBuilder('chat')
         .where(
           `
+          1=1
           roomId = ${roomId}
           ${chatWhere}
           `,
