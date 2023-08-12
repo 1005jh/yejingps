@@ -93,7 +93,7 @@ export class RoomService {
     }
   }
 
-  async getChatList(roomId: string, lastChatTime?: string) {
+  async getChatList(roomId: string, lastChatTime: Date) {
     const take = 20; // 한 번에 가져올 채팅의 개수
 
     try {
@@ -104,15 +104,13 @@ export class RoomService {
 
       const query = this.chatRepository
         .createQueryBuilder('chat')
-        .where(
-          `
-          1=1
-          roomId = ${roomId}
-          ${chatWhere}
-          `,
-        )
-        .orderBy('createdAt', 'DESC')
-        .take(take);
+        .where('chat.roomId = :roomId', { roomId });
+
+      if (lastChatTime) {
+        query.andWhere('chat.createdAt < :lastChatTime', { lastChatTime });
+      }
+
+      query.orderBy('createdAt', 'DESC').take(take);
 
       const chatList = await query.getMany();
       return chatList;

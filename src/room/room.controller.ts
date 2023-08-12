@@ -53,10 +53,7 @@ export class RoomController {
   }
 
   @Get('/:id/chat')
-  async getChatList(
-    @Param('id') roomId: string,
-    @Query() lastChatTime: string,
-  ) {
+  async getChatList(@Param('id') roomId: string, @Query() lastChatTime: Date) {
     return this.roomService.getChatList(roomId, lastChatTime);
   }
 }
