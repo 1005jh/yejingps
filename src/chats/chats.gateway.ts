@@ -17,7 +17,9 @@ import { Repository } from 'typeorm';
 import { JoinEntity } from 'src/entity/join.entity';
 import { AuthGuard } from './../auth/jwt/jwt.guard';
 import { CurrentUser } from 'src/common/decorator/user.decorator';
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: { origin: 'http://localhost:3000', credentials: true },
+})
 export class ChatsGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
 {
