@@ -55,7 +55,10 @@ export class UsersController {
   @Post('/logout')
   logout(@Req() req: Request, @Res() res: Response): any {
     res.cookie('jwt', '', {
-      maxAge: 0,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 24 * 60 * 60 * 1000, //1d
     });
     res.clearCookie('jwt');
     return res.send({

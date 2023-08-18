@@ -1,3 +1,4 @@
+import { IsDate } from 'class-validator';
 import { JoinEntity } from './../entity/join.entity';
 import { UserEntity } from 'src/entity/user.entity';
 import { ChatEntity } from './../entity/chat.entity';
@@ -25,13 +26,12 @@ export class ChatsService {
       if (!room) {
         throw new HttpException('존재하지 않는 채팅방입니다.', 400);
       }
-      const where = `1 = 1
-      AND roomId = '${roomId}'
-      AND userId = ${user.id}
-      AND joinRoom = 1`;
+      const userId = user.id;
       const exist = await this.joinRepository
         .createQueryBuilder()
-        .where(where)
+        .where(`roomId = :roomId`, { roomId })
+        .andWhere(`userId = :userId`, { userId })
+        .andWhere(`joinRoom = 1`)
         .getRawOne();
       if (exist) {
         throw new HttpException('잘못된 요청입니다.', 400);
@@ -49,13 +49,12 @@ export class ChatsService {
 
   async leaveUser(user: UserEntity, roomId: string) {
     try {
-      const where = `1 = 1
-        AND roomId = '${roomId}'
-        AND userId = ${user.id}
-        AND joinRoom = 1`;
+      const userId = user.id;
       const exist = await this.joinRepository
         .createQueryBuilder()
-        .where(where)
+        .where(`roomId = :roomId`, { roomId })
+        .andWhere(`userId = :userId`, { userId })
+        .andWhere(`joinRoom = 1`)
         .getRawOne();
       return await this.joinRepository.delete(exist);
     } catch (e) {
