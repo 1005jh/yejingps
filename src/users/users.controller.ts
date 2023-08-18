@@ -55,6 +55,9 @@ export class UsersController {
   @Post('/logout')
   logout(@Req() req: Request, @Res() res: Response): any {
     res.cookie('jwt', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
       maxAge: 0,
     });
     res.removeHeader('Authorization');
