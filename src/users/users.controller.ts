@@ -40,7 +40,7 @@ export class UsersController {
     @Body() dto: LoginDto,
   ) {
     const token = await this.authService.login(dto);
-    res.setHeader('Authorization', 'Bearer ' + token);
+    // res.setHeader('Authorization', 'Bearer ' + token);
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: true,
@@ -55,10 +55,7 @@ export class UsersController {
   @Post('/logout')
   logout(@Req() req: Request, @Res() res: Response): any {
     res.cookie('jwt', '', {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 24 * 60 * 60 * 1000, //1d
+      maxAge: 0,
     });
     res.clearCookie('jwt');
     return res.send({
