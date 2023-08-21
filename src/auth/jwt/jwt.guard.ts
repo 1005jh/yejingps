@@ -39,8 +39,7 @@ export class AuthGuard extends NestAuthGuard('jwt') {
       const client: Socket = context.switchToWs().getClient();
       const cookies = client.handshake.headers.cookie;
       const parsedCookies = cookie.parse(cookies || '');
-      const token = parsedCookies.jwt; // 'jwt'는 쿠키의 키입니다.
-
+      const token = parsedCookies.jwt;
       // 토큰을 검사하는 로직
       if (!(await this.validateToken(token))) {
         throw new UnauthorizedException('Invalid token');
@@ -60,6 +59,7 @@ export class AuthGuard extends NestAuthGuard('jwt') {
         process.env.SECRETKEY,
       ) as Payload;
       const user = await this.authService.validateUser(decoded);
+      console.log(token, user, '토큰확인');
 
       if (!user) {
         return false;
