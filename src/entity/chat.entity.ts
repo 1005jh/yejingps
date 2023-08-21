@@ -6,6 +6,10 @@ import { EntityContent } from './content';
 export class ChatEntity extends EntityContent {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: 'varchar', length: 32, unique: true, nullable: false })
+  username: string;
+
   @Column({ type: 'text', nullable: false })
   chat: string;
 

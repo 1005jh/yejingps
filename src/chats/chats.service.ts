@@ -66,6 +66,7 @@ export class ChatsService {
     try {
       const chat = this.chatRepository.create();
       chat.userId = user.id;
+      chat.username = user.username;
       chat.roomId = roomId;
       chat.chat = message;
       await this.chatRepository.save(chat);

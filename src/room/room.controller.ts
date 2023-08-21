@@ -1,3 +1,4 @@
+import { SuccessInterceptor } from './../common/interceptor/interceptor';
 import { UpdateRoomDto } from './../common/dtos/update-room.dto';
 import { AdminGuard } from './../common/admin/admin.guard';
 import { RoomEntity } from './../entity/room.entity';
@@ -14,11 +15,13 @@ import {
   Put,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CurrentUser } from 'src/common/decorator/user.decorator';
 import { CreateRoomDto } from 'src/common/dtos/create-room.dto';
 
 @Controller('room')
+@UseInterceptors(SuccessInterceptor)
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
