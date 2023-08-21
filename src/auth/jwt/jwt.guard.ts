@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common';
 // import { ExecutionContext, Injectable } from '@nestjs/common';
 // import { AuthGuard as NestAuthGuard } from '@nestjs/passport';
 
@@ -34,7 +35,7 @@ export class AuthGuard extends NestAuthGuard('jwt') {
     });
   }
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<any> {
     const isWsContext = context.getType() === 'ws';
 
     if (isWsContext) {
@@ -42,24 +43,6 @@ export class AuthGuard extends NestAuthGuard('jwt') {
       const cookies = client.handshake.headers.cookie;
       const parsedCookies = cookie.parse(cookies || '');
       const token = parsedCookies.jwt;
-      const result = await this.validateToken(token);
-      console.log(result, 'result ');
-      // 토큰을 검사하는 로직
-      if (!result) {
-        throw new UnauthorizedException('Invalid token');
-      }
-
-      return true;
-    } else {
-      super.canActivate(context);
-      return;
-    }
-  }
-
-  async validateToken(token: string): Promise<boolean> {
-    try {
-      console.log(token, '토큰확인');
-
       const decoded: Payload = jwt.verify(
         token,
         process.env.SECRETKEY,
@@ -69,16 +52,14 @@ export class AuthGuard extends NestAuthGuard('jwt') {
         id: decoded.id,
         username: decoded.username,
       };
-      console.log(payload, '페이로드');
       const user = await this.authService.validateUser(payload);
-      console.log(user, '유저정보확인');
-
       if (!user) {
-        return false;
+        throw new HttpException('Invalid token', 401);
       }
+
       return true;
-    } catch (e) {
-      return false;
+    } else {
+      return await super.canActivate(context);
     }
   }
 }
