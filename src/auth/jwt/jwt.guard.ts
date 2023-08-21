@@ -40,8 +40,10 @@ export class AuthGuard extends NestAuthGuard('jwt') {
       const cookies = client.handshake.headers.cookie;
       const parsedCookies = cookie.parse(cookies || '');
       const token = parsedCookies.jwt;
+      const result = await this.validateToken(token);
+      console.log(result, 'result ');
       // 토큰을 검사하는 로직
-      if (!(await this.validateToken(token))) {
+      if (!result) {
         throw new UnauthorizedException('Invalid token');
       }
 
@@ -54,6 +56,8 @@ export class AuthGuard extends NestAuthGuard('jwt') {
 
   async validateToken(token: string): Promise<boolean> {
     try {
+      console.log(token, '토큰확인');
+
       const decoded: Payload = jwt.verify(
         token,
         process.env.SECRETKEY,
