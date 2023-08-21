@@ -33,6 +33,7 @@ export class AuthGuard extends NestAuthGuard('jwt') {
       secretOrKey: process.env.SECRETKEY,
       ignoreExpiration: false,
     });
+    console.log(this.authService);
   }
 
   async canActivate(context: ExecutionContext): Promise<any> {
