@@ -62,7 +62,7 @@ export class AuthGuard extends NestAuthGuard('jwt') {
         process.env.SECRETKEY,
       ) as Payload;
       console.log(decoded, '토큰해부');
-      const payload = {
+      const payload: Payload = {
         id: decoded.id,
         username: decoded.username,
       };
