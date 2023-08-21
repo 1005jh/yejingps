@@ -22,7 +22,6 @@ import { Socket } from 'socket.io';
 
 interface Payload {
   username?: string;
-  nickname?: string;
   id: number;
 }
 
@@ -63,7 +62,11 @@ export class AuthGuard extends NestAuthGuard('jwt') {
         process.env.SECRETKEY,
       ) as Payload;
       console.log(decoded, '토큰해부');
-      const user = await this.authService.validateUser(decoded);
+      const payload = {
+        id: decoded.id,
+        username: decoded.username,
+      };
+      const user = await this.authService.validateUser(payload);
       console.log(token, user, '토큰확인');
 
       if (!user) {

@@ -5,7 +5,6 @@ import { PassportStrategy } from '@nestjs/passport';
 
 interface Payload {
   username?: string;
-  nickname?: string;
   id: number;
 }
 
