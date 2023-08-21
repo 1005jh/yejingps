@@ -28,7 +28,10 @@ interface Payload {
 @Injectable()
 export class AuthGuard extends NestAuthGuard('jwt') {
   constructor(private readonly authService: AuthService) {
-    super();
+    super({
+      secretOrKey: process.env.SECRETKEY,
+      ignoreExpiration: false,
+    });
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -48,7 +51,7 @@ export class AuthGuard extends NestAuthGuard('jwt') {
 
       return true;
     } else {
-      super.canActivate(context);
+      await super.canActivate(context);
       return true;
     }
   }
