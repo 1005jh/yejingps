@@ -51,8 +51,8 @@ export class AuthGuard extends NestAuthGuard('jwt') {
 
       return true;
     } else {
-      await super.canActivate(context);
-      return true;
+      super.canActivate(context);
+      return;
     }
   }
 

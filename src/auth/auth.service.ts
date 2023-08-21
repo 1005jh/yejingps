@@ -19,7 +19,9 @@ export class AuthService {
     private readonly userRepository: Repository<UserEntity>,
     private readonly usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) {
+    console.log('AuthService 생성됨');
+  }
 
   async login(dto: LoginDto) {
     try {
