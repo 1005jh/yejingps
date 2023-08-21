@@ -10,15 +10,11 @@ import { HttpException } from '@nestjs/common';
 // }
 // jwt.guard.ts
 
-import {
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard as NestAuthGuard } from '@nestjs/passport';
 import * as cookie from 'cookie'; // cookie-parser 패키지를 사용
 import * as jwt from 'jsonwebtoken'; // jwt를 import합니다.
-import { AuthService } from '../auth.service'; // AuthService를 import합니다.
+import { AuthService } from './../auth.service'; // AuthService를 import합니다.
 import { Socket } from 'socket.io';
 
 interface Payload {
@@ -33,7 +29,7 @@ export class AuthGuard extends NestAuthGuard('jwt') {
       secretOrKey: process.env.SECRETKEY,
       ignoreExpiration: false,
     });
-    console.log(this.authService);
+    console.log(this.authService, 'asdfadsfasdfadsfadsfasdfasdfasd');
   }
 
   async canActivate(context: ExecutionContext): Promise<any> {
