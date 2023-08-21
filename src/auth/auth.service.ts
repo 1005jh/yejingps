@@ -48,6 +48,7 @@ export class AuthService {
   }
 
   async validateUser(payload: Payload) {
+    console.log('여기');
     const result = await this.userRepository
       .createQueryBuilder('user')
       .where({ id: payload.id })

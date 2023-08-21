@@ -66,8 +66,9 @@ export class AuthGuard extends NestAuthGuard('jwt') {
         id: decoded.id,
         username: decoded.username,
       };
+      console.log(payload, '페이로드');
       const user = await this.authService.validateUser(payload);
-      console.log(token, user, '토큰확인');
+      console.log(user, '유저정보확인');
 
       if (!user) {
         return false;
