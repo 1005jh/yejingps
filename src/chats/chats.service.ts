@@ -56,7 +56,11 @@ export class ChatsService {
         .andWhere(`userId = :userId`, { userId })
         .andWhere(`joinRoom = 1`)
         .getRawOne();
-      return await this.joinRepository.delete(exist);
+
+      const result = await this.joinRepository.delete(exist);
+      console.log(exist, '유저가 남아있나?');
+      console.log(result, '유저가 남아있나?');
+      return result;
     } catch (e) {
       throw new HttpException(e, 400);
     }
