@@ -12,7 +12,7 @@ interface Payload {
 export class WsJwtGuard implements CanActivate {
   constructor(private authService: AuthService) {}
 
-  async canActivate(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext): Promise<any> {
     const client = context.switchToWs().getClient();
     const cookies: string[] = client.handshake.headers.cookie.split('; ');
     const authToken = cookies
@@ -27,6 +27,6 @@ export class WsJwtGuard implements CanActivate {
       context.switchToWs().getData(),
       'asdfasdfadsfasdfasdfasdfasdfasdfdasf',
     );
-    return Boolean(user);
+    return user;
   }
 }
