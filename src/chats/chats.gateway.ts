@@ -16,7 +16,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JoinEntity } from 'src/entity/join.entity';
 import { AuthGuard } from './../auth/jwt/jwt.guard';
-import { CurrentUser } from 'src/common/decorator/user.decorator';
+import { CurrentUser, WsUser } from 'src/common/decorator/user.decorator';
 import { WsJwtGuard } from 'src/auth/jwt/jwt.wsguard';
 @WebSocketGateway({
   cors: { origin: 'http://localhost:3000', credentials: true },
@@ -50,14 +50,11 @@ export class ChatsGateway
   @UseGuards(WsJwtGuard)
   @SubscribeMessage('joinRoom')
   async handleJoinRoom(
-    // @CurrentUser() user: UserEntity,
+    @WsUser() user: UserEntity,
     @MessageBody() roomId: string,
     @ConnectedSocket() socket: Socket,
-    context: ExecutionContext,
   ) {
     socket.join(roomId);
-    console.log(context, 'asdfasdf');
-    const user = context.switchToWs().getData().user;
     console.log(user, 'user 제발 나와주세요');
     await this.chatsService.joinUesr(user, roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);

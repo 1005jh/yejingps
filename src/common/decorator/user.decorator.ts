@@ -6,3 +6,8 @@ export const CurrentUser = createParamDecorator(
     return req.user;
   },
 );
+
+export const WsUser = createParamDecorator((_data, ctx: ExecutionContext) => {
+  const req = ctx.switchToWs().getData();
+  return req.user;
+});
