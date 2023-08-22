@@ -17,6 +17,7 @@ import { Repository } from 'typeorm';
 import { JoinEntity } from 'src/entity/join.entity';
 import { AuthGuard } from './../auth/jwt/jwt.guard';
 import { CurrentUser } from 'src/common/decorator/user.decorator';
+import { WsJwtGuard } from 'src/auth/jwt/jwt.wsguard';
 @WebSocketGateway({
   cors: { origin: 'http://localhost:3000', credentials: true },
 })
@@ -46,7 +47,7 @@ export class ChatsGateway
     this.logger.log(`connected: ${socket.id} ${socket.nsp.name}`);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(WsJwtGuard)
   @SubscribeMessage('joinRoom')
   async handleJoinRoom(
     @CurrentUser() user: UserEntity,
@@ -61,7 +62,7 @@ export class ChatsGateway
     return joinUserList;
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(WsJwtGuard)
   @SubscribeMessage('leaveRoom')
   async handleLeaveRoom(
     @CurrentUser() user: UserEntity,
@@ -76,7 +77,7 @@ export class ChatsGateway
     return joinUserList;
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(WsJwtGuard)
   @SubscribeMessage('message')
   async handleMessage(
     @CurrentUser() user: UserEntity,
