@@ -53,9 +53,10 @@ export class ChatsGateway
     @CurrentUser() user: UserEntity,
     @MessageBody() roomId: string,
     @ConnectedSocket() socket: Socket,
+    client: any,
   ) {
     socket.join(roomId);
-    console.log(user, '대체 왜 언디파인...');
+    console.log(client, '대체 왜 언디파인...');
     await this.chatsService.joinUesr(user, roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
     socket.to(roomId).emit('updateUserList', joinUserList);
