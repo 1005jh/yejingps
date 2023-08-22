@@ -55,6 +55,7 @@ export class ChatsGateway
     @ConnectedSocket() socket: Socket,
   ) {
     socket.join(roomId);
+    console.log(roomId, '값을 확인해보자');
     await this.chatsService.joinUesr(user, roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
     socket.to(roomId).emit('updateUserList', joinUserList);

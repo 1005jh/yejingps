@@ -20,6 +20,7 @@ export class ChatsService {
 
   async joinUesr(user: UserEntity, roomId: string) {
     try {
+      console.log(roomId, '서비스에서 룸아이디 확인해보자');
       const room = await this.roomRepository.findOne({
         where: { roomId: roomId },
       });
