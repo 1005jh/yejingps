@@ -20,11 +20,9 @@ export class ChatsService {
 
   async joinUesr(user: UserEntity, roomId: string) {
     try {
-      console.log(user, '서비스에서 유저 확인해보자!!');
       const room = await this.roomRepository.findOne({
         where: { roomId: roomId },
       });
-      console.log(room, '이거 왜 존재하지 않는것일까?');
       if (!room) {
         throw new HttpException('존재하지 않는 채팅방입니다.', 400);
       }

@@ -7,7 +7,7 @@ export class ChatEntity extends EntityContent {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 32, unique: true, nullable: false })
+  @Column({ type: 'varchar', length: 32, nullable: false })
   username: string;
 
   @Column({ type: 'text', nullable: false })
