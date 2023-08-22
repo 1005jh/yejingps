@@ -71,6 +71,7 @@ export class ChatsService {
       chat.roomId = roomId;
       chat.chat = message;
       await this.chatRepository.save(chat);
+      return chat;
     } catch (error) {
       console.log(error);
       throw new HttpException(error, 400);
