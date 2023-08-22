@@ -2,7 +2,7 @@ import { UserEntity } from 'src/entity/user.entity';
 import { ChatsService } from './chats.service';
 import { ChatEntity } from './../entity/chat.entity';
 import { Socket } from 'socket.io';
-import { Logger, UseGuards } from '@nestjs/common';
+import { ExecutionContext, Logger, UseGuards } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -50,14 +50,14 @@ export class ChatsGateway
   @UseGuards(WsJwtGuard)
   @SubscribeMessage('joinRoom')
   async handleJoinRoom(
-    @CurrentUser() user: UserEntity,
+    // @CurrentUser() user: UserEntity,
     @MessageBody() roomId: string,
     @ConnectedSocket() socket: Socket,
-    client: any,
+    context: ExecutionContext,
   ) {
     socket.join(roomId);
-    console.log(socket, 'socket?????????...');
-    console.log(WsJwtGuard, '...');
+    const user = context.switchToWs().getData().user;
+    console.log(user, 'user 제발 나와주세요');
     await this.chatsService.joinUesr(user, roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
     socket.to(roomId).emit('updateUserList', joinUserList);
