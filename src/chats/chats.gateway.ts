@@ -56,6 +56,7 @@ export class ChatsGateway
     context: ExecutionContext,
   ) {
     socket.join(roomId);
+    console.log(context, 'asdfasdf');
     const user = context.switchToWs().getData().user;
     console.log(user, 'user 제발 나와주세요');
     await this.chatsService.joinUesr(user, roomId);
