@@ -50,16 +50,13 @@ export class ChatsService {
   async leaveUser(user: UserEntity, roomId: string) {
     try {
       const userId = user.id;
-      const exist = await this.joinRepository
-        .createQueryBuilder()
-        .where(`roomId = :roomId`, { roomId })
-        .andWhere(`userId = :userId`, { userId })
-        .andWhere(`joinRoom = 1`)
-        .getRawOne();
+      const exist = await this.joinRepository.findOne({
+        where: { roomId: roomId, userId: userId },
+      });
 
       const result = await this.joinRepository.delete(exist);
       console.log(exist, '유저가 남아있나?');
-      console.log(result, '유저가 남아있나?');
+      console.log(result, '유저가 남아있나? 삭제 말고 다르게 해야하나');
       return result;
     } catch (e) {
       throw new HttpException(e, 400);
