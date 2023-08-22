@@ -56,7 +56,8 @@ export class ChatsGateway
     client: any,
   ) {
     socket.join(roomId);
-    console.log(client, '대체 왜 언디파인...');
+    console.log(socket, 'socket?????????...');
+    console.log(WsJwtGuard, '...');
     await this.chatsService.joinUesr(user, roomId);
     const joinUserList = await this.chatsService.joinUserList(roomId);
     socket.to(roomId).emit('updateUserList', joinUserList);
