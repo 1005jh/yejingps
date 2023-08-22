@@ -66,22 +66,23 @@ export class ChatsGateway
   @UseGuards(WsJwtGuard)
   @SubscribeMessage('leaveRoom')
   async handleLeaveRoom(
-    @CurrentUser() user: UserEntity,
-    @MessageBody() roomId: string,
+    @WsUser() user: UserEntity,
+    // @MessageBody() roomId: string,
+    @MessageBody() data: any,
     @ConnectedSocket() socket: Socket,
   ) {
-    socket.leave(roomId);
-    await this.chatsService.leaveUser(user, roomId);
-    const joinUserList = await this.chatsService.joinUserList(roomId);
-    socket.to(roomId).emit('updateUserList', joinUserList);
-    this.logger.log(`User ${user.id} leaved room ${roomId}`);
+    socket.leave(data.roomId);
+    await this.chatsService.leaveUser(user, data.roomId);
+    const joinUserList = await this.chatsService.joinUserList(data.roomId);
+    socket.to(data.roomId).emit('updateUserList', joinUserList);
+    this.logger.log(`User ${user.id} leaved room ${data.roomId}`);
     return joinUserList;
   }
 
   @UseGuards(WsJwtGuard)
   @SubscribeMessage('message')
   async handleMessage(
-    @CurrentUser() user: UserEntity,
+    @WsUser() user: UserEntity,
     @MessageBody() data: { roomId: string; message: string },
     @ConnectedSocket() socket: Socket,
   ) {
@@ -93,25 +94,27 @@ export class ChatsGateway
 
   @SubscribeMessage('join')
   async handleJoin(
-    @MessageBody() roomId: string,
+    // @MessageBody() roomId: string,
+    @MessageBody() data: any,
     @ConnectedSocket() socket: Socket,
   ) {
-    socket.join(roomId);
-    const joinUserList = await this.chatsService.joinUserList(roomId);
-    socket.to(roomId).emit('updateUserList', joinUserList);
-    this.logger.log(`User joined room ${roomId}`);
+    socket.join(data.roomId);
+    const joinUserList = await this.chatsService.joinUserList(data.roomId);
+    socket.to(data.roomId).emit('updateUserList', joinUserList);
+    this.logger.log(`User joined room ${data.roomId}`);
     return joinUserList;
   }
 
   @SubscribeMessage('leave')
   async handleLeave(
-    @MessageBody() roomId: string,
+    // @MessageBody() roomId: string,
+    @MessageBody() data: any,
     @ConnectedSocket() socket: Socket,
   ) {
-    socket.leave(roomId);
-    const joinUserList = await this.chatsService.joinUserList(roomId);
-    socket.to(roomId).emit('updateUserList', joinUserList);
-    this.logger.log(`User leaved room ${roomId}`);
+    socket.leave(data.roomId);
+    const joinUserList = await this.chatsService.joinUserList(data.roomId);
+    socket.to(data.roomId).emit('updateUserList', joinUserList);
+    this.logger.log(`User leaved room ${data.roomId}`);
     return joinUserList;
   }
 }
