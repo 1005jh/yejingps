@@ -23,6 +23,7 @@ export class ChatsService {
       const room = await this.roomRepository.findOne({
         where: { roomId: roomId },
       });
+      console.log(room, '이거 왜 존재하지 않는것일까?');
       if (!room) {
         throw new HttpException('존재하지 않는 채팅방입니다.', 400);
       }
