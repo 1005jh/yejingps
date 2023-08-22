@@ -24,6 +24,6 @@ export class WsJwtGuard implements CanActivate {
     const user = await this.authService.validateUser(jwtPayload);
     // context.switchToWs().getData().user = user;
     console.log(user, 'asdfasdfadsfasdfasdfasdfasdfasdfdasf');
-    return user;
+    return user[0];
   }
 }
