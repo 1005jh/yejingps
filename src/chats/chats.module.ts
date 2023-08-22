@@ -1,3 +1,4 @@
+import { AuthModule } from './../auth/auth.module';
 import { JoinEntity } from './../entity/join.entity';
 import { ChatEntity } from './../entity/chat.entity';
 import { Module } from '@nestjs/common';
@@ -9,6 +10,7 @@ import { UsersModule } from 'src/users/users.module';
 import { ConcertEntity } from 'src/entity/concert.entity';
 import { UserEntity } from 'src/entity/user.entity';
 import { RoomEntity } from 'src/entity/room.entity';
+import { WsJwtGuard } from 'src/auth/jwt/jwt.wsguard';
 
 @Module({
   imports: [
@@ -21,8 +23,9 @@ import { RoomEntity } from 'src/entity/room.entity';
     ]),
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     UsersModule,
+    AuthModule,
   ],
-  providers: [ChatsService, ChatsGateway],
+  providers: [ChatsService, ChatsGateway, WsJwtGuard],
   exports: [ChatsGateway],
 })
 export class ChatsModule {}
