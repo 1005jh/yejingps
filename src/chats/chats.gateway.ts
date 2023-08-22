@@ -51,15 +51,15 @@ export class ChatsGateway
   @SubscribeMessage('joinRoom')
   async handleJoinRoom(
     @WsUser() user: UserEntity,
-    @MessageBody() roomId: string,
+    @MessageBody() data: any,
     @ConnectedSocket() socket: Socket,
   ) {
-    socket.join(roomId);
+    socket.join(data.roomId);
     console.log(user, 'user 제발 나와주세요');
-    await this.chatsService.joinUesr(user, roomId);
-    const joinUserList = await this.chatsService.joinUserList(roomId);
-    socket.to(roomId).emit('updateUserList', joinUserList);
-    this.logger.log(`User ${user.id} joined room ${roomId}`);
+    await this.chatsService.joinUesr(user, data.roomId);
+    const joinUserList = await this.chatsService.joinUserList(data.roomId);
+    socket.to(data.roomId).emit('updateUserList', joinUserList);
+    this.logger.log(`User ${user.id} joined room ${data.roomId}`);
     return joinUserList;
   }
 
