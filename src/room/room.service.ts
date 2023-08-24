@@ -113,6 +113,7 @@ export class RoomService {
       query.orderBy('createdAt', 'DESC').take(take);
 
       const chatList = await query.getMany();
+      console.log(chatList);
       return chatList;
     } catch (error) {
       console.log(error);
