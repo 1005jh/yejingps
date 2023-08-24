@@ -69,7 +69,7 @@ export class ChatsService {
       chat.userId = user.id;
       chat.username = user.username;
       chat.roomId = roomId;
-      chat.chat = message;
+      chat.message = message;
       await this.chatRepository.save(chat);
       return chat;
     } catch (error) {

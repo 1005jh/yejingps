@@ -83,12 +83,17 @@ export class ChatsGateway
   @SubscribeMessage('message')
   async handleMessage(
     @WsUser() user: UserEntity,
-    @MessageBody() data: { roomId: string; message: string },
+    @MessageBody()
+    data: { roomId: string; message: string; isAtLocation: boolean },
     @ConnectedSocket() socket: Socket,
   ) {
     const { roomId, message } = data;
     const chat = await this.chatsService.createChat(user, roomId, message);
-    socket.broadcast.to(roomId).emit('message', chat);
+    const result = {
+      data: chat,
+      isAtLocation: data.isAtLocation,
+    };
+    socket.broadcast.to(roomId).emit('message', result);
     return chat;
   }
 
