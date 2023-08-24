@@ -113,7 +113,6 @@ export class ConcertService {
       .leftJoin(RoomEntity, 're', 'ce.id = re.concertId')
       .orderBy('ce.startDate', 'DESC')
       .getRawMany();
-    console.log(a);
     return a;
   }
 
