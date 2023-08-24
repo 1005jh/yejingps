@@ -84,7 +84,12 @@ export class ChatsGateway
   async handleMessage(
     @WsUser() user: UserEntity,
     @MessageBody()
-    data: { roomId: string; message: string; isAtLocation: boolean },
+    data: {
+      roomId: string;
+      message: string;
+      isAtLocation: boolean;
+      time: string;
+    },
     @ConnectedSocket() socket: Socket,
   ) {
     const chat = await this.chatsService.createChat(user, data);

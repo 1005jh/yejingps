@@ -71,6 +71,7 @@ export class ChatsService {
       chat.roomId = data.roomId;
       chat.message = data.message;
       chat.isAtLocation = data.isAtLocation;
+      chat.time = data.time;
       await this.chatRepository.save(chat);
       return chat;
     } catch (error) {

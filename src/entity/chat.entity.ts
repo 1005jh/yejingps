@@ -16,6 +16,9 @@ export class ChatEntity extends EntityContent {
   @Column({ type: Boolean })
   isAtLocation: boolean;
 
+  @Column({ type: 'varchar', nullable: false })
+  time: string;
+
   @Column({ type: 'varchar', length: 12, nullable: false })
   roomId: string;
 
