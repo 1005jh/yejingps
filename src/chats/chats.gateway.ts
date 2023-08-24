@@ -87,13 +87,8 @@ export class ChatsGateway
     data: { roomId: string; message: string; isAtLocation: boolean },
     @ConnectedSocket() socket: Socket,
   ) {
-    const { roomId, message } = data;
-    const chat = await this.chatsService.createChat(user, roomId, message);
-    const result = {
-      data: chat,
-      isAtLocation: data.isAtLocation,
-    };
-    socket.broadcast.to(roomId).emit('message', result);
+    const chat = await this.chatsService.createChat(user, data);
+    socket.broadcast.to(data.roomId).emit('message', chat);
     return chat;
   }
 

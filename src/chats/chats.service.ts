@@ -63,13 +63,14 @@ export class ChatsService {
     }
   }
 
-  async createChat(user: UserEntity, roomId: string, message: string) {
+  async createChat(user: UserEntity, data: any) {
     try {
       const chat = this.chatRepository.create();
       chat.userId = user.id;
       chat.username = user.username;
-      chat.roomId = roomId;
-      chat.message = message;
+      chat.roomId = data.roomId;
+      chat.message = data.message;
+      chat.isAtLocation = data.isAtLocation;
       await this.chatRepository.save(chat);
       return chat;
     } catch (error) {
