@@ -111,7 +111,7 @@ export class RoomService {
       }
 
       // 정렬과 페이징
-      query.orderBy('createdAt', 'DESC').take(take);
+      query.orderBy('createdAt', 'ASC').take(take);
 
       const chatList = await query.getMany();
       console.log(chatList);
