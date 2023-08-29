@@ -35,7 +35,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: Payload) {
     const user = await this.authService.validateUser(payload);
-    console.log(user, payload, 'asdfdas');
     if (!user) {
       throw new HttpException('접근 오류', 400);
     }
