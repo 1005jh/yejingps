@@ -82,7 +82,7 @@ export class ChatsService {
 
   async joinUserList(roomId: string) {
     try {
-      const userList = this.chatRepository
+      const userList = this.joinRepository
         .createQueryBuilder('chat')
         .select(['ue.username'])
         .where({ roomId: roomId })
