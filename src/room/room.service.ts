@@ -94,7 +94,7 @@ export class RoomService {
   }
 
   async getChatList(roomId: string, id: number) {
-    const take = 20; // 한 번에 가져올 채팅의 개수
+    const take = 40; // 한 번에 가져올 채팅의 개수
 
     try {
       const query = this.chatRepository.createQueryBuilder();
